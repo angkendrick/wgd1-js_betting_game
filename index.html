@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS BETTING GAME</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<br>
+    <h1>JS Betting Game</h1>
+    <h3>You Have:$<span id="funds">100</span></h3>
+    Number is
+    <input type="text" id="userNum">
+    <br>
+    Bet Amount
+    <select id="betAmount">
+        <option value="5">$5</option>
+        <option value="10">$10</option>
+    </select>
+    <button id="bet">Bet!</button>
+
+    <br><br>
+    <h3><span id="result"></span></h3>
+    <div id="money">
+        <img src="http://travel.fyicenter.com/Currency/CAD_5_Five_Dollar_Bill_Back.jpg"/>
+    </div>
+    <div id="money2"></div>
+
+</body>
+
+<script>
+
+$(document).ready(function(){
+    console.log('ready!');
+});
+
+
+
+var pot = 100;
+
+function randomNumber(min, max){
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+
+$("#bet").click(function(){
+    var bet = parseInt($("#betAmount").find(":selected").text().replace('$',''));
+    var ranNum = randomNumber(1,10);
+    switch(bet) {
+        case ranNum:
+            pot += (bet * 2);
+            $("#result").text('The secret number was ' + ranNum + ' your bet was doubled');
+            break;
+        case ranNum + 1:
+        case ranNum - 1:
+        case ranNum:
+            pot += bet;
+            $("#result").text('The secret number was ' + ranNum + ' you won');
+            break;
+        default:
+            pot -= bet;
+            $("#result").text('The secret number was ' + ranNum + ' you lost');
+    }
+    $("#funds").text(pot);
+
+    if (pot <= 0) {
+        $("#bet").text('restart!').click(function(){
+            location.reload();
+        });
+        $("#result").text('Game Over!');
+    }
+});
+
+$("#betAmount").change(function(){
+    var value = $(this).find(":selected").text();
+    $("#money").empty();
+    $("#money2").empty();
+
+    if (value == '$5') {
+        $("#money").append('<img src="http://travel.fyicenter.com/Currency/CAD_5_Five_Dollar_Bill_Back.jpg"/>');
+    }
+    if (value == '$10') {
+        $("#money").append('<img src="http://travel.fyicenter.com/Currency/CAD_5_Five_Dollar_Bill_Back.jpg"/>');
+        $("#money2").append('<img src="http://travel.fyicenter.com/Currency/CAD_5_Five_Dollar_Bill_Back.jpg"/>');
+    }
+});
+
+
+//    var pot = 100;
+//    var betOK = true;
+//
+//    function randomNumber(min, max){
+//        return Math.floor(Math.random() * (max - min) + min);
+//    }
+
+//    do {
+//        var bet;
+//        bet = parseInt(prompt('available funds: $' + pot + ' please enter either a $5 or $10'));
+//        if (bet == 5 || bet == 10) {
+//            var userNum = parseInt(prompt('please choose a number between 1 to 10')); //get user number
+//            var roundOK = true;
+//            do { // loop until user enters a valid number
+//                if (userNum >= 1 && userNum <= 10) { //check user number between 1 and 10
+//                    roundOK = false;
+//                }
+//            }
+//            while (roundOK);
+//                var ranNum = randomNumber(1, 10); //generate random number
+//                switch(userNum) { // userNum vs ranNum
+//                    case ranNum:
+//                        pot += (bet * 2);
+//                        alert('secret number was: ' + ranNum + ' reward doubled');
+//                        break;
+//                    case ranNum + 1:
+//                    case ranNum - 1:
+//                        pot += bet;
+//                        alert('secret number was: ' + ranNum + ' reward added');
+//                        break;
+//                    case 88: //exit
+//                        betOK = false;
+//                        break;
+//                    default:
+//                        pot -= bet;
+//                        alert('secret number was: ' + ranNum + ' you lost $' + bet)
+//                }
+//        }
+//        if (pot <= 0) {
+//            betOK = false;
+//        }
+//    }
+//    while (betOK);
+
+</script>
+
+</html>
